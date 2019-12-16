@@ -101,6 +101,8 @@ class LogcatColor(object):
         # See http://developer.android.com/guide/developing/tools/logcat.html
         # We can't support -d / -s since we use them for ADB above, but we
         # provide long-form options in case they are needed
+        parser.add_option("-p", "--pid", dest="pid",
+             help="only print specific process log")
         parser.add_option("-b", "--buffer", action="append", dest="buffers",
             help="loads an alternate log buffer for viewing, such as event or" +
                  " radio")
@@ -150,6 +152,9 @@ class LogcatColor(object):
         if options.buffers:
             for buf in options.buffers:
                 self.logcat_args.extend(["-b", buf])
+
+        if options.pid:
+            self.logcat_args.extend(["--pid", options.pid])
 
         if options.file:
             self.logcat_args.extend(["-f", options.file])
